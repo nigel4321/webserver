@@ -99,13 +99,12 @@ class Webserver(object):
         # Generate simple and compliant HTTP responses
         resp = []
         if status in self.RESPONSE_CODES:
-            resp.append("HTTP/1.1 %s %s\n" % (status, self.RESPONSE_CODES[status]))
+            resp.append("HTTP/1.0 %s %s\r\n" % (status, self.RESPONSE_CODES[status]))
         else:
-            resp.append("HTTP/1.1 %s %s\n" % (200, self.RESPONSE_CODES[200]))
-        resp.append("Content-Length: %i\n" % len(data))
-        resp.append("Date: %s\n" %
+            resp.append("HTTP/1.0 %s %s\r\n" % (200, self.RESPONSE_CODES[200]))
+        resp.append("Date: %s\r\n" %
                     email.utils.formatdate(timeval=None, localtime=False, usegmt=True))
-        resp.append("Server: (custom)\nContent-Type: text/html\n\n%s" % (data))
+        resp.append("Server: (custom)\r\nContent-Type: text/html\r\n\r\n%s" % (data))
         return "".join(resp)
 
     def start(self):
